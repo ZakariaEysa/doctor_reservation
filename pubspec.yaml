@@ -15,14 +15,14 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   # 📦 State management
-  flutter_bloc: ^8.1.5
+  flutter_bloc: ^9.1.1
 
   # ❄️ Code generator (mainly used with cubit & retrofit)
   freezed: ^3.1.0
   freezed_annotation: ^3.1.0
 
   # 💉 Dependency injection
-  get_it: ^7.7.0
+  get_it: ^8.0.3
 
   # 🔄 JSON serialization (model generation)
   json_serializable: ^6.8.0
@@ -31,11 +31,11 @@ dependencies:
   # 🌐 Networking
   dio: ^5.4.2
   retrofit: ^4.1.0
-  retrofit_generator: ^8.1.0
+  retrofit_generator: ^9.2.0
   pretty_dio_logger: ^1.3.2
 
   # 🌍 Localization
-  intl: ^0.19.1
+  intl: ^0.20.2
   easy_localization: ^3.0.4
 
   # 💦 Splash screen configuration
@@ -48,7 +48,7 @@ dependencies:
   flutter_screenutil: ^5.9.2
 
   # 🔥 Firebase core
-  firebase_core: ^2.28.0
+  firebase_core: ^3.15.1
 
   # 🖼️ Image caching
   cached_network_image: ^3.3.2
@@ -58,14 +58,14 @@ dependencies:
   flutter_secure_storage: ^9.2.3
 
   # ✨ Shimmer loading effect
-  shimmer: ^3.0.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   # ✅ Lint rules and code style checks
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
   # 🔨 Code generation tool
   build_runner: ^2.4.9
