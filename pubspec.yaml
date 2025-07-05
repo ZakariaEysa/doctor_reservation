@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # 🍎 Cupertino icons for iOS-style widgets
   cupertino_icons: ^1.0.8
 
   # 📦 State management
@@ -69,3 +68,11 @@ dev_dependencies:
 
   # 🔨 Code generation tool
   build_runner: ^2.4.9
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/svgs/
