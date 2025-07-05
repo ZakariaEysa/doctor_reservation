@@ -1,0 +1,8 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "cmake.ignoreCMakeListsMissing": true,
+    "cSpell.words": [
+        "Docdoc",
+        "svgs"
+    ]
+}
