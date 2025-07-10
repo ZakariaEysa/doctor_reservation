@@ -15,7 +15,8 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  bool isObscureText = true;
+  bool isPasswordObscure = true;
+  bool isConfirmPasswordObscure = true;
   bool hasLowercase = false;
   bool hasUppercase = false;
   bool hasSpecialCharacters = false;
@@ -26,7 +27,6 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     passwordController = RegisterCubit.get(context).passwordController;
     setupPasswordControllerListener();
 
@@ -49,23 +49,25 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = RegisterCubit.get(context);
     return Form(
-      key: RegisterCubit.get(context).registerFormKey,
+      key: cubit.registerFormKey,
       child: Column(
         children: [
           AppTextFormField(
-            controller: RegisterCubit.get(context).userNameController,
+            controller: cubit.userNameController,
 
             hintText: "userName",
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return " please enter a valid userName";
               }
+              return null;
             },
           ),
           verticalSpace(16),
           AppTextFormField(
-            controller: RegisterCubit.get(context).emailController,
+            controller: cubit.emailController,
             hintText: "Email",
             validator: (value) {
               if (value == null ||
@@ -73,11 +75,12 @@ class _RegisterFormState extends State<RegisterForm> {
                   !AppRegex.isEmailValid(value)) {
                 return " please enter a valid email";
               }
+              return null;
             },
           ),
           verticalSpace(16),
           AppTextFormField(
-            controller: RegisterCubit.get(context).phoneController,
+            controller: cubit.phoneController,
             hintText: "Phone",
             validator: (value) {
               if (value == null ||
@@ -85,6 +88,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   !AppRegex.isPhoneNumberValid(value)) {
                 return " please enter a valid phone number";
               }
+              return null;
             },
           ),
 
@@ -92,39 +96,40 @@ class _RegisterFormState extends State<RegisterForm> {
           GenderSelector(),
           verticalSpace(16),
           AppTextFormField(
-            isObscureText: isObscureText,
+            isObscureText: isPasswordObscure,
             suffixIcon: IconButton(
-              icon: isObscureText
+              icon: isPasswordObscure
                   ? const Icon(Icons.visibility)
                   : const Icon(Icons.visibility_off),
               onPressed: () {
                 setState(() {
-                  isObscureText = !isObscureText;
+                  isPasswordObscure = !isPasswordObscure;
                 });
               },
             ),
-            controller: RegisterCubit.get(context).passwordController,
+            controller: cubit.passwordController,
             hintText: "Password",
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return " please enter a valid password";
               }
+              return null;
             },
           ),
           verticalSpace(16),
           AppTextFormField(
-            isObscureText: isObscureText,
+            isObscureText: isConfirmPasswordObscure,
             suffixIcon: IconButton(
-              icon: isObscureText
+              icon: isConfirmPasswordObscure
                   ? const Icon(Icons.visibility)
                   : const Icon(Icons.visibility_off),
               onPressed: () {
                 setState(() {
-                  isObscureText = !isObscureText;
+                  isConfirmPasswordObscure = !isConfirmPasswordObscure;
                 });
               },
             ),
-            controller: RegisterCubit.get(context).confirmPasswordController,
+            controller: cubit.confirmPasswordController,
             hintText: "Confirm Password",
             validator: (value) {
               if (value == null ||
@@ -132,6 +137,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   value != passwordController.text) {
                 return " password does not match";
               }
+              return null;
             },
           ),
           verticalSpace(16),
@@ -146,5 +152,11 @@ class _RegisterFormState extends State<RegisterForm> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
   }
 }

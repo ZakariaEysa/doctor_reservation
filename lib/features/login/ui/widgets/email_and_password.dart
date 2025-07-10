@@ -26,7 +26,6 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
 
   @override
   void initState() {
-    // TODO: implement initState
     passwordController = context.read<LoginCubit>().passwordController;
     setupPasswordControllerListener();
 
@@ -61,7 +60,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
                   value.isEmpty ||
                   !AppRegex.isEmailValid(value)) {
                 return " please enter a valid email";
-              }
+              }  return null;
             },
           ),
           verticalSpace(16),
@@ -70,7 +69,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return " please enter a valid password";
-              }
+              }  return null;
             },
 
             isObscureText: isObscureText,
