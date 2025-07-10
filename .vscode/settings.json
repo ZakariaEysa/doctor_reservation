@@ -4,5 +4,10 @@
     "cSpell.words": [
         "Docdoc",
         "svgs"
-    ]
+    ],
+    "files.exclude": {
+  "**/*.g.dart": true,
+  "**/*.freezed.dart": true
+}
+
 }

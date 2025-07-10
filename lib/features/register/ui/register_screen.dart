@@ -2,7 +2,9 @@ import 'package:doctor_reservation/core/helpers/extensions.dart';
 import 'package:doctor_reservation/core/helpers/spacing.dart';
 import 'package:doctor_reservation/core/theming/styles.dart';
 import 'package:doctor_reservation/core/widgets/app_text_button.dart';
+import 'package:doctor_reservation/features/register/data/models/register_request_body.dart';
 import 'package:doctor_reservation/features/register/logic/cubit/register_cubit.dart';
+import 'package:doctor_reservation/features/register/ui/widgets/register_bloc_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -33,25 +35,40 @@ class RegisterScreen extends StatelessWidget {
                 RegisterForm(),
 
                 verticalSpace(40),
+
+                const TermsAndConditionsText(),
+                verticalSpace(16),
+
                 AppTextButton(
                   buttonText: "Sign Up",
                   textStyle: TextStyles.font16WhiteSemiBold,
                   onPressed: () {
-                    RegisterCubit.get(
+                    if (RegisterCubit.get(
                       context,
-                    ).registerFormKey.currentState!.validate();
+                    ).registerFormKey.currentState!.validate()) {
+                      final cubit = RegisterCubit.get(context);
+                      RegisterCubit.get(context).register(
+                        RegisterRequestBody(
+                          confirmPassword: cubit.confirmPasswordController.text,
+                          phone: cubit.phoneController.text,
+                          name: cubit.userNameController.text,
+                          email: cubit.emailController.text,
+                          password: cubit.passwordController.text,
+                          gender: cubit.gender,
+                        ),
+                      );
+                    }
                     // context.pushReplacementNamed(Routes.homeScreen);
                   },
                 ),
-                verticalSpace(16),
 
-                const TermsAndConditionsText(),
                 verticalSpace(16),
                 AlreadyHaveAccountText(
                   label: "Already have an account? ",
                   text: ' Log In',
                   onTap: () => context.pushReplacementNamed(Routes.loginScreen),
                 ),
+                RegisterBlocListener(),
               ],
             ),
           ),

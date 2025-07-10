@@ -51,6 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 verticalSpace(40),
+                  const TermsAndConditionsText(),
+                                verticalSpace(16),
                 AppTextButton(
                   buttonText: "Login",
 
@@ -74,12 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
                     } else {
-                      print("invalid");
                     }
                   },
                 ),
-                verticalSpace(16),
-                const TermsAndConditionsText(),
+             
                 verticalSpace(60),
                 AlreadyHaveAccountText(
                   label: "Don't have an account? ",

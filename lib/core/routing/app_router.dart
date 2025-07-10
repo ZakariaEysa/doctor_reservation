@@ -20,7 +20,7 @@ class AppRouter {
       case Routes.registerScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => RegisterCubit(),
+            create: (context) => RegisterCubit(getIt()),
             child: const RegisterScreen(),
           ),
         );
