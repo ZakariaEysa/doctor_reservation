@@ -1,11 +1,17 @@
+import 'package:doctor_reservation/core/helpers/extensions.dart';
 import 'package:doctor_reservation/core/helpers/spacing.dart';
-import 'package:doctor_reservation/core/widgets/app_text_form_field.dart';
+import 'package:doctor_reservation/core/routing/routes.dart';
+import 'package:doctor_reservation/features/login/data/models/login_request_body.dart';
+import 'package:doctor_reservation/features/login/logic/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/theming/styles.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'widgets/already_have_account.dart';
+import 'widgets/email_and_password.dart';
+import 'widgets/login_bloc_listener.dart';
 import 'widgets/terms_and_conditions.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -35,30 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyles.font14GrayRegular,
                 ),
                 verticalSpace(36),
-                Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      AppTextFormField(hintText: "Email"),
-                      verticalSpace(16),
-                      AppTextFormField(
-                        isObscureText: isObscureText,
-                        suffixIcon: IconButton(
-                          icon: isObscureText
-                              ? const Icon(Icons.visibility)
-                              : const Icon(Icons.visibility_off),
-                          onPressed: () {
-                            setState(() {
-                              isObscureText = !isObscureText;
-                            });
-                          },
-                        ),
-                        hintText: "Password",
-                      ),
-                      verticalSpace(16),
-                    ],
-                  ),
-                ),
+                EmailAndPassword(),
 
                 Align(
                   alignment: Alignment.centerRight,
@@ -72,12 +55,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   buttonText: "Login",
 
                   textStyle: TextStyles.font16WhiteSemiBold,
-                  onPressed: () {},
+                  onPressed: () {
+                    if (context
+                        .read<LoginCubit>()
+                        .formKey
+                        .currentState!
+                        .validate()) {
+                      context.read<LoginCubit>().login(
+                        LoginRequestBody(
+                          email: context
+                              .read<LoginCubit>()
+                              .emailController
+                              .text,
+                          password: context
+                              .read<LoginCubit>()
+                              .passwordController
+                              .text,
+                        ),
+                      );
+                    } else {
+                      print("invalid");
+                    }
+                  },
                 ),
                 verticalSpace(16),
                 const TermsAndConditionsText(),
                 verticalSpace(60),
                 const AlreadyHaveAccountText(),
+                const LoginBlocListener(),
               ],
             ),
           ),
