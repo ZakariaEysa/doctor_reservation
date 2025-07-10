@@ -1,9 +1,18 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theming/styles.dart';
 
 class AlreadyHaveAccountText extends StatelessWidget {
-  const AlreadyHaveAccountText({super.key});
+
+  final String label;
+  final String text;
+  final Function()? onTap;
+  const AlreadyHaveAccountText({
+    super.key,
+    required this.text,
+    required this.onTap, required this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +21,21 @@ class AlreadyHaveAccountText extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: 'Already have an account?',
+            text: label,
             style: TextStyles.font13DarkBlueRegular,
           ),
-          TextSpan(text: ' Sign Up', style: TextStyles.font13BlueSemiBold),
+
+          TextSpan(
+            text: text,
+            style: TextStyles.font13BlueSemiBold,
+
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                onTap!();
+
+                // Single tapped.
+              },
+          ),
         ],
       ),
     );

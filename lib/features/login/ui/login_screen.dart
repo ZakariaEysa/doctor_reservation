@@ -81,7 +81,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 verticalSpace(16),
                 const TermsAndConditionsText(),
                 verticalSpace(60),
-                const AlreadyHaveAccountText(),
+                AlreadyHaveAccountText(
+                  label: "Don't have an account? ",
+                  text: ' Sign Up',
+                  onTap: () =>
+                      context.pushReplacementNamed(Routes.registerScreen),
+                ),
                 const LoginBlocListener(),
               ],
             ),
