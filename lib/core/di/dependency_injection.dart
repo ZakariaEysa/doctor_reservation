@@ -17,8 +17,8 @@ void setUpGetIt() {
 
   // login repo and cubit
   getIt.registerLazySingleton<LoginRepo>(() => LoginRepo(getIt()));
-  getIt.registerLazySingleton<LoginCubit>(() => LoginCubit(getIt()));
+  getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt()));
   // register repo and cubit
   getIt.registerLazySingleton<RegisterRepo>(() => RegisterRepo(getIt()));
-  getIt.registerLazySingleton<RegisterCubit>(() => RegisterCubit(getIt()));
+  getIt.registerFactory<RegisterCubit>(() => RegisterCubit(getIt()));
 }
