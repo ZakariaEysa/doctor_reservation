@@ -1,5 +1,9 @@
+import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
+import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
 import 'package:doctor_reservation/core/networking/api_result.dart';
+import 'package:doctor_reservation/core/networking/dio_factory.dart';
 import 'package:doctor_reservation/features/register/data/models/register_request_body.dart';
+import 'package:doctor_reservation/features/register/data/models/register_response_model.dart';
 import 'package:doctor_reservation/features/register/data/repos/register_repo.dart';
 import 'package:doctor_reservation/features/register/logic/cubit/register_state.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +30,22 @@ class RegisterCubit extends Cubit<RegisterState> {
       failure: (errorHandler) => emit(
         RegisterState.error(error: errorHandler.apiErrorModel.message ?? ""),
       ),
-      success: (registerResponseModel) =>
-          emit(RegisterState.success(registerResponseModel)),
+      success: (registerResponseModel) {
+        handleSharedPrefSave(registerResponseModel);
+        emit(RegisterState.success(registerResponseModel));
+      },
     );
+  }
+
+  void handleSharedPrefSave(RegisterResponseModel registerResponseModel) async {
+    await SharedPreferencesHelper.setData(
+      SharedPreferencesConstants.loggedIn,
+      true,
+    );
+    await SharedPreferencesHelper.setSecuredString(
+      SharedPreferencesConstants.token,
+      registerResponseModel.userData?.token ?? "",
+    );
+    DioFactory.refreshDioFactory();
   }
 }

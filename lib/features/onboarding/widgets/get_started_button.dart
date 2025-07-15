@@ -1,4 +1,6 @@
 import 'package:doctor_reservation/core/helpers/extensions.dart';
+import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
+import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/routing/routes.dart';
@@ -11,7 +13,12 @@ class GetStartedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {
+      onPressed: () async {
+        await SharedPreferencesHelper.setData(
+          SharedPreferencesConstants.passedOnboarding,
+          true,
+        );
+
         context.pushNamed(Routes.loginScreen);
       },
       style: ButtonStyle(

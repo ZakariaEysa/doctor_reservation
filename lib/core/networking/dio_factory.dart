@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
+import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioFactory {
@@ -21,10 +23,24 @@ class DioFactory {
     }
   }
 
+  static void addDioHeaders() async {
+    dio?.options.headers = {
+      'Accept': 'application/json',
+      'Authorization':
+          'Bearer ${await SharedPreferencesHelper.getSecuredString(SharedPreferencesConstants.token)} ',
+    };
+  }
+
+  static void refreshDioFactory()  async{
+    dio?.options.headers = {
+      'Authorization':
+          'Bearer ${await SharedPreferencesHelper.getSecuredString(SharedPreferencesConstants.token)} ',
+    };
+  }
+
   static void addDioInterceptor() {
     dio?.interceptors.add(
       PrettyDioLogger(
-        
         requestBody: true,
         requestHeader: true,
         responseHeader: true,

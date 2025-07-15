@@ -1,5 +1,4 @@
 import 'package:doctor_reservation/core/routing/app_router.dart';
-import 'package:doctor_reservation/core/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,7 +20,8 @@ class DocApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.homeScreen,
+        initialRoute: initialRoute,
+
         debugShowCheckedModeBanner: false,
       ),
     );
