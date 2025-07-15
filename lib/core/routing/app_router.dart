@@ -1,4 +1,6 @@
 import 'package:doctor_reservation/core/di/dependency_injection.dart';
+import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
+import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
 import 'package:doctor_reservation/features/login/logic/cubit/login_cubit.dart';
 import 'package:doctor_reservation/features/register/logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,22 @@ import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/register/ui/register_screen.dart';
 import 'routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+Future<void> getInitialRoute() async {
+  if (!await SharedPreferencesHelper.getBool(
+    SharedPreferencesConstants.passedOnboarding,
+  )) {
+    initialRoute = Routes.onBoardingScreen;
+  } else if (!await SharedPreferencesHelper.getBool(
+    SharedPreferencesConstants.loggedIn,
+  )) {
+    initialRoute = Routes.loginScreen;
+  } else {
+    initialRoute = Routes.homeScreen;
+  }
+}
+
+String? initialRoute;
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {

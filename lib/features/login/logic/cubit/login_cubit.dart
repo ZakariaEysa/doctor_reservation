@@ -1,9 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
 import 'package:doctor_reservation/core/networking/api_result.dart';
+import 'package:doctor_reservation/core/networking/dio_factory.dart';
 import 'package:doctor_reservation/features/login/data/models/login_request_body.dart';
+import 'package:doctor_reservation/features/login/data/models/login_response_model.dart';
 import 'package:doctor_reservation/features/login/data/repos/login_repo.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/helpers/shared_preferences_helper.dart';
 import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -19,11 +24,21 @@ class LoginCubit extends Cubit<LoginState> {
     final response = await _loginRepo.login(loginRequestBody);
     response.when(
       success: (loginResponse) {
+        handleSharedPrefSave(loginResponse);
         emit(LoginState.success(loginResponse));
       },
       failure: (error) {
         emit(LoginState.error(error: error.apiErrorModel.message ?? ''));
       },
     );
+  }
+
+  void handleSharedPrefSave(LoginResponse loginResponse)  async{
+    await  SharedPreferencesHelper.setData(SharedPreferencesConstants.loggedIn, true);
+  await  SharedPreferencesHelper.setSecuredString(
+      SharedPreferencesConstants.token,
+      loginResponse.userData?.token ?? "",
+    );
+    DioFactory.refreshDioFactory();
   }
 }
