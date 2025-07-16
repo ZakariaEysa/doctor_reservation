@@ -20,8 +20,7 @@ class RegisterBlocListener extends StatelessWidget {
             context.pushNamed(Routes.homeScreen);
           },
           error: (error) {
-            context.pop();
-            errorDialog(context, error);
+            setupErrorState(context, error);
           },
           loading: () {
             loadingDialog(context);

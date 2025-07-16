@@ -10,20 +10,20 @@ import '../../features/login/data/repos/login_repo.dart';
 
 final getIt = GetIt.instance;
 
-void setUpGetIt() {
+Future<void> setUpGetIt() async {
   // dio factory and Api services
-  Dio dio = DioFactory.getDio();
-  getIt.registerLazySingleton<ApiService>(() => (ApiService(dio)));
+  Dio dio = await DioFactory.getDio(); // لازم await هنا
+  getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
 
   // login repo and cubit
   getIt.registerLazySingleton<LoginRepo>(() => LoginRepo(getIt()));
   // getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt()));
+
   // register repo and cubit
   getIt.registerLazySingleton<RegisterRepo>(() => RegisterRepo(getIt()));
   // getIt.registerFactory<RegisterCubit>(() => RegisterCubit(getIt()));
 
   // home repo and services
-  getIt.registerLazySingleton<HomeServices>(() => (HomeServices(dio)));
-
+  getIt.registerLazySingleton<HomeServices>(() => HomeServices(dio));
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepo(getIt()));
 }

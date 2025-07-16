@@ -1,5 +1,6 @@
 import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
 import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
+import 'package:doctor_reservation/core/networking/api_error_handler.dart';
 import 'package:doctor_reservation/core/networking/api_result.dart';
 import 'package:doctor_reservation/core/networking/dio_factory.dart';
 import 'package:doctor_reservation/features/register/data/models/register_request_body.dart';
@@ -28,7 +29,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     final result = await _registerRepo.register(registerRequestBody);
     result.when(
       failure: (errorHandler) => emit(
-        RegisterState.error(error: errorHandler.apiErrorModel.message ?? ""),
+        RegisterState.error(error: ApiErrorHandler.handle(errorHandler)),
       ),
       success: (registerResponseModel) {
         handleSharedPrefSave(registerResponseModel);

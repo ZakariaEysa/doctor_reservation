@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
+import 'package:doctor_reservation/core/networking/api_error_handler.dart';
 import 'package:doctor_reservation/core/networking/api_result.dart';
 import 'package:doctor_reservation/core/networking/dio_factory.dart';
 import 'package:doctor_reservation/features/login/data/models/login_request_body.dart';
@@ -27,7 +28,7 @@ class LoginCubit extends Cubit<LoginState> {
         emit(LoginState.success(loginResponse));
       },
       failure: (error) {
-        emit(LoginState.error(error: error.apiErrorModel.message ?? ''));
+        emit(LoginState.error(error: ApiErrorHandler.handle(error) ));
       },
     );
   }

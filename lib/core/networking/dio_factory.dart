@@ -4,12 +4,13 @@ import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioFactory {
-  /// private constructor as I don't want to allow creating an instance of this class
+  /// Private constructor to prevent instantiation
   DioFactory._();
 
   static Dio? dio;
 
-  static Dio getDio() {
+  /// Main method to get configured Dio instance
+  static Future<Dio> getDio() async {
     Duration timeOut = const Duration(seconds: 30);
 
     if (dio == null) {
@@ -17,27 +18,36 @@ class DioFactory {
       dio!
         ..options.connectTimeout = timeOut
         ..options.receiveTimeout = timeOut;
-      addDioHeaders();
-      addDioInterceptor();
-      return dio!;
-    } else {
-      return dio!;
+
+      await _addDioHeaders(); // Await required here
+      _addDioInterceptor();
     }
+
+    return dio!;
   }
 
-  static void addDioHeaders() async {
+  /// Set headers with Authorization token
+  static Future<void> _addDioHeaders() async {
+    final token = await SharedPreferencesHelper.getSecuredString(
+      SharedPreferencesConstants.token,
+    );
+
     dio?.options.headers = {
       'Accept': 'application/json',
-      'Authorization':
-          'Bearer ${await SharedPreferencesHelper.getSecuredString(SharedPreferencesConstants.token)}',
+      if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
     };
   }
 
+  /// Update Authorization header after login
   static void setTokenIntoHeaderAfterLogin(String token) {
-    dio?.options.headers = {'Authorization': 'Bearer $token'};
+    dio?.options.headers = {
+      ...?dio?.options.headers,
+      'Authorization': 'Bearer $token',
+    };
   }
 
-  static void addDioInterceptor() {
+  /// Add logging interceptor for debugging
+  static void _addDioInterceptor() {
     dio?.interceptors.add(
       PrettyDioLogger(
         requestBody: true,

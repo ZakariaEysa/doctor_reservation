@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await getInitialRoute();
 
-  setUpGetIt();
+  await setUpGetIt();
 
   runApp(DocApp(appRouter: AppRouter()));
 }

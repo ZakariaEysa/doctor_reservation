@@ -1,7 +1,6 @@
 import 'package:doctor_reservation/core/helpers/spacing.dart';
 import 'package:doctor_reservation/features/home/logic/cubit/home_cubit.dart';
-import 'package:doctor_reservation/features/home/widgets/doctor_card_list_view.dart';
-import 'package:doctor_reservation/features/home/widgets/doctor_speciality_list_view.dart';
+import 'package:doctor_reservation/features/home/widgets/doctors_speciality_bloc_builder.dart';
 import 'package:doctor_reservation/features/home/widgets/home_blue_container.dart';
 import 'package:doctor_reservation/features/home/widgets/home_top_bar.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
               verticalSpace(24),
               DoctorsSpecialitySeeAll(),
               verticalSpace(18),
-              DoctorSpecialityListView(),
-              verticalSpace(8),
-              DoctorCardListView(),
+              SpecializationsSection(),
             ],
           ),
         ),

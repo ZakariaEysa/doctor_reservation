@@ -1,11 +1,15 @@
 import 'package:doctor_reservation/core/theming/colors.dart';
 import 'package:doctor_reservation/core/theming/styles.dart';
+import 'package:doctor_reservation/features/home/data/models/specializations_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DoctorSpecialityListView extends StatelessWidget {
-  const DoctorSpecialityListView({super.key});
-
+  const DoctorSpecialityListView({
+    super.key,
+    required this.specializationsList,
+  });
+  final List<SpecializationsData?>? specializationsList;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -13,7 +17,7 @@ class DoctorSpecialityListView extends StatelessWidget {
 
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: specializationsList?.length,
         itemBuilder: (context, itemIndex) {
           return Padding(
             padding: EdgeInsetsDirectional.only(
@@ -48,7 +52,10 @@ class DoctorSpecialityListView extends StatelessWidget {
                     width: 40.w,
                   ),
                 ),
-                Text("Speciality", style: TextStyles.font13DarkBlueRegular),
+                Text(
+                  specializationsList?[itemIndex]?.name ?? '',
+                  style: TextStyles.font13DarkBlueRegular,
+                ),
               ],
             ),
           );
