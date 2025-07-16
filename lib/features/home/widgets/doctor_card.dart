@@ -1,11 +1,13 @@
 import 'package:doctor_reservation/core/helpers/spacing.dart';
+import 'package:doctor_reservation/features/home/data/models/specializations_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/theming/styles.dart';
 
 class DoctorCard extends StatelessWidget {
-  const DoctorCard({super.key});
+  const DoctorCard({super.key, required this.doctorModel});
+  final Doctors? doctorModel;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +28,23 @@ class DoctorCard extends StatelessWidget {
 
         horizontalSpace(16),
         Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text("Dr. Randy Wigham", style: TextStyles.font18DarkBlueBold),
+            Text(doctorModel?.name ?? "", style: TextStyles.font18DarkBlueBold),
             verticalSpace(3),
-            Text("General Practitioner", style: TextStyles.font13GrayRegular),
-            Text("zakariaeysa@gmail.com", style: TextStyles.font13GrayRegular),
+            Text(
+              (doctorModel?.price?.toString() ?? '') +
+                  (doctorModel?.degree.toString() ?? ''),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyles.font13GrayRegular,
+              textAlign: TextAlign.start,
+            ),
+            Text(
+              doctorModel?.email ?? "",
+              style: TextStyles.font13GrayRegular,
+              textAlign: TextAlign.start,
+            ),
           ],
         ),
       ],

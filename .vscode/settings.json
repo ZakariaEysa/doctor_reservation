@@ -2,8 +2,9 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "cmake.ignoreCMakeListsMissing": true,
     "cSpell.words": [
-        "Docdoc",
-        "svgs"
+      "Docdoc",
+      "Speciality",
+      "svgs"
     ],
     "files.exclude": {
   "**/*.g.dart": true,
