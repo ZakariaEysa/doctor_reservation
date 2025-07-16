@@ -46,6 +46,8 @@ class RegisterCubit extends Cubit<RegisterState> {
       SharedPreferencesConstants.token,
       registerResponseModel.userData?.token ?? "",
     );
-    DioFactory.refreshDioFactory();
+    DioFactory.setTokenIntoHeaderAfterLogin(
+      registerResponseModel.userData?.token ?? "",
+    );
   }
 }

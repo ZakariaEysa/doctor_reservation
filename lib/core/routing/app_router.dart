@@ -1,6 +1,7 @@
 import 'package:doctor_reservation/core/di/dependency_injection.dart';
 import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
 import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
+import 'package:doctor_reservation/features/home/logic/cubit/home_cubit.dart';
 import 'package:doctor_reservation/features/login/logic/cubit/login_cubit.dart';
 import 'package:doctor_reservation/features/register/logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,12 @@ class AppRouter {
           ),
         );
       case Routes.homeScreen:
-        return MaterialPageRoute(builder: (context) => const HomeScreen());
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => HomeCubit(getIt())..getAllSpecialization(),
+            child: HomeScreen(),
+          ),
+        );
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(

@@ -6,7 +6,6 @@ import 'package:doctor_reservation/features/login/data/models/login_request_body
 import 'package:doctor_reservation/features/login/data/models/login_response_model.dart';
 import 'package:doctor_reservation/features/login/data/repos/login_repo.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/helpers/shared_preferences_helper.dart';
 import 'login_state.dart';
@@ -39,6 +38,6 @@ class LoginCubit extends Cubit<LoginState> {
       SharedPreferencesConstants.token,
       loginResponse.userData?.token ?? "",
     );
-    DioFactory.refreshDioFactory();
+    DioFactory.setTokenIntoHeaderAfterLogin(loginResponse.userData?.token ?? "");
   }
 }

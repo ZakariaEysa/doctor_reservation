@@ -4,6 +4,7 @@ import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioFactory {
+  /// private constructor as I don't want to allow creating an instance of this class
   DioFactory._();
 
   static Dio? dio;
@@ -16,6 +17,7 @@ class DioFactory {
       dio!
         ..options.connectTimeout = timeOut
         ..options.receiveTimeout = timeOut;
+      addDioHeaders();
       addDioInterceptor();
       return dio!;
     } else {
@@ -27,15 +29,12 @@ class DioFactory {
     dio?.options.headers = {
       'Accept': 'application/json',
       'Authorization':
-          'Bearer ${await SharedPreferencesHelper.getSecuredString(SharedPreferencesConstants.token)} ',
+          'Bearer ${await SharedPreferencesHelper.getSecuredString(SharedPreferencesConstants.token)}',
     };
   }
 
-  static void refreshDioFactory()  async{
-    dio?.options.headers = {
-      'Authorization':
-          'Bearer ${await SharedPreferencesHelper.getSecuredString(SharedPreferencesConstants.token)} ',
-    };
+  static void setTokenIntoHeaderAfterLogin(String token) {
+    dio?.options.headers = {'Authorization': 'Bearer $token'};
   }
 
   static void addDioInterceptor() {
