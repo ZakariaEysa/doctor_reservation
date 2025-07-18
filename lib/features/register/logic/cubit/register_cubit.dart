@@ -31,22 +31,20 @@ class RegisterCubit extends Cubit<RegisterState> {
       failure: (errorHandler) => emit(
         RegisterState.error(error: ApiErrorHandler.handle(errorHandler)),
       ),
-      success: (registerResponseModel) {
+      success: (registerResponseModel) async {
         if (registerResponseModel.data != null) {
-          _saveUserDataToSharedPrefs(registerResponseModel.data!);
+          await _saveUserDataToSharedPrefs(registerResponseModel.data!);
           emit(RegisterState.success(registerResponseModel));
         } else {
-          emit(
-            RegisterState.error(
-              error: ApiErrorHandler.handle(null),
-            ),
-          );
+          emit(RegisterState.error(error: ApiErrorHandler.handle(null)));
         }
       },
     );
   }
 
-  void _saveUserDataToSharedPrefs(RegisterUserData registerResponseModel) async {
+  Future<void> _saveUserDataToSharedPrefs(
+    RegisterUserData registerResponseModel,
+  ) async {
     await SharedPreferencesHelper.setData(
       SharedPreferencesConstants.loggedIn,
       true,
@@ -57,14 +55,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
     DioFactory.setTokenIntoHeaderAfterLogin(registerResponseModel.token ?? "");
   }
-  @override
-Future<void> close() {
-  userNameController.dispose();
-  phoneController.dispose();
-  emailController.dispose();
-  passwordController.dispose();
-  confirmPasswordController.dispose();
-  return super.close();
-}
 
+  @override
+  Future<void> close() {
+    userNameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    return super.close();
+  }
 }

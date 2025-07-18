@@ -28,9 +28,9 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginState.loading());
     final response = await _loginRepo.login(loginRequestBody);
     response.when(
-      success: (loginResponse) {
+      success: (loginResponse) async {
         if (loginResponse.data != null) {
-          _cacheUserTokenAndLoginFlag(loginResponse.data!);
+          await _cacheUserTokenAndLoginFlag(loginResponse.data!);
           emit(LoginState.success(loginResponse));
         } else {
           emit(LoginState.error(error: ApiErrorHandler.handle(null)));
@@ -42,8 +42,7 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-  void _cacheUserTokenAndLoginFlag(LoginUserData loginResponse) async {
-
+  Future<void> _cacheUserTokenAndLoginFlag(LoginUserData loginResponse) async {
     await SharedPreferencesHelper.setData(
       SharedPreferencesConstants.loggedIn,
       true,
@@ -54,11 +53,11 @@ class LoginCubit extends Cubit<LoginState> {
     );
     DioFactory.setTokenIntoHeaderAfterLogin(loginResponse.token ?? "");
   }
-  @override
-Future<void> close() {
-  emailController.dispose();
-  passwordController.dispose();
-  return super.close();
-}
 
+  @override
+  Future<void> close() {
+    emailController.dispose();
+    passwordController.dispose();
+    return super.close();
+  }
 }
