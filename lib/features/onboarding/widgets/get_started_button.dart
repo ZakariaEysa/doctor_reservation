@@ -19,7 +19,7 @@ class GetStartedButton extends StatelessWidget {
           true,
         );
 
-        context.pushNamed(Routes.loginScreen);
+        context.pushReplacementNamed(Routes.loginScreen);
       },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(ColorsManager.mainBlue),

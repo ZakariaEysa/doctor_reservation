@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:doctor_reservation/core/networking/api_constants.dart';
+import 'package:doctor_reservation/core/networking/api_response.dart';
 import 'package:doctor_reservation/features/register/data/models/register_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -14,10 +15,12 @@ abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
   @POST(ApiConstants.login)
-  Future<LoginResponse> login(@Body() LoginRequestBody loginRequestBody);
+  Future<ApiResponse<LoginUserData>> login(
+    @Body() LoginRequestBody loginRequestBody,
+  );
 
   @POST(ApiConstants.register)
-  Future<RegisterResponseModel> register(
+  Future<ApiResponse<RegisterUserData>> register(
     @Body() RegisterRequestBody loginRequestBody,
   );
 }
