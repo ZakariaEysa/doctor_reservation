@@ -1,4 +1,5 @@
 import 'package:doctor_reservation/core/networking/api_error_handler.dart';
+import 'package:doctor_reservation/core/networking/api_response.dart';
 import 'package:doctor_reservation/core/networking/api_result.dart';
 import 'package:doctor_reservation/core/networking/api_service.dart';
 
@@ -9,7 +10,7 @@ class LoginRepo {
   final ApiService _apiService;
   LoginRepo(this._apiService);
 
-  Future<ApiResult<LoginResponse>> login(
+  Future<ApiResult<ApiResponse<LoginUserData>>> login(
     LoginRequestBody loginRequestBody,
   ) async {
     try {

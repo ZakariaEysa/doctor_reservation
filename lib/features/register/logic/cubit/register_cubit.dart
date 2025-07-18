@@ -32,23 +32,39 @@ class RegisterCubit extends Cubit<RegisterState> {
         RegisterState.error(error: ApiErrorHandler.handle(errorHandler)),
       ),
       success: (registerResponseModel) {
-        handleSharedPrefSave(registerResponseModel);
-        emit(RegisterState.success(registerResponseModel));
+        if (registerResponseModel.data != null) {
+          _saveUserDataToSharedPrefs(registerResponseModel.data!);
+          emit(RegisterState.success(registerResponseModel));
+        } else {
+          emit(
+            RegisterState.error(
+              error: ApiErrorHandler.handle(null),
+            ),
+          );
+        }
       },
     );
   }
 
-  void handleSharedPrefSave(RegisterResponseModel registerResponseModel) async {
+  void _saveUserDataToSharedPrefs(RegisterUserData registerResponseModel) async {
     await SharedPreferencesHelper.setData(
       SharedPreferencesConstants.loggedIn,
       true,
     );
     await SharedPreferencesHelper.setSecuredString(
       SharedPreferencesConstants.token,
-      registerResponseModel.userData?.token ?? "",
+      registerResponseModel.token ?? "",
     );
-    DioFactory.setTokenIntoHeaderAfterLogin(
-      registerResponseModel.userData?.token ?? "",
-    );
+    DioFactory.setTokenIntoHeaderAfterLogin(registerResponseModel.token ?? "");
   }
+  @override
+Future<void> close() {
+  userNameController.dispose();
+  phoneController.dispose();
+  emailController.dispose();
+  passwordController.dispose();
+  confirmPasswordController.dispose();
+  return super.close();
+}
+
 }

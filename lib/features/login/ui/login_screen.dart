@@ -1,7 +1,6 @@
 import 'package:doctor_reservation/core/helpers/extensions.dart';
 import 'package:doctor_reservation/core/helpers/spacing.dart';
 import 'package:doctor_reservation/core/routing/routes.dart';
-import 'package:doctor_reservation/features/login/data/models/login_request_body.dart';
 import 'package:doctor_reservation/features/login/logic/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,16 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         .currentState!
                         .validate()) {
                       context.read<LoginCubit>().login(
-                        LoginRequestBody(
-                          email: context
-                              .read<LoginCubit>()
-                              .emailController
-                              .text,
-                          password: context
-                              .read<LoginCubit>()
-                              .passwordController
-                              .text,
-                        ),
+                       
                       );
                     } else {
                     }

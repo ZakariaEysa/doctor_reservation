@@ -1,4 +1,5 @@
 import 'package:doctor_reservation/core/networking/api_error_handler.dart';
+import 'package:doctor_reservation/core/networking/api_response.dart';
 import 'package:doctor_reservation/core/networking/api_result.dart';
 import 'package:doctor_reservation/core/networking/api_service.dart';
 import 'package:doctor_reservation/features/register/data/models/register_response_model.dart';
@@ -9,7 +10,7 @@ class RegisterRepo {
   ApiService _apiService;
 
   RegisterRepo(this._apiService);
-  Future<ApiResult<RegisterResponseModel>> register(
+  Future<ApiResult<ApiResponse<RegisterUserData>>> register(
     RegisterRequestBody registerRequestBody,
   ) async {
     try {

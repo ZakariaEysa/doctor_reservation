@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:doctor_reservation/core/helpers/extensions.dart';
 import 'package:doctor_reservation/core/helpers/shared_preferences_constants.dart';
 import 'package:doctor_reservation/core/helpers/shared_preferences_helper.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -34,7 +35,7 @@ class DioFactory {
 
     dio?.options.headers = {
       'Accept': 'application/json',
-      if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
+      if (!token.isNullOrEmpty()) 'Authorization': 'Bearer $token',
     };
   }
 

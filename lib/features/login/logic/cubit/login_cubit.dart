@@ -19,26 +19,46 @@ class LoginCubit extends Cubit<LoginState> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void login(LoginRequestBody loginRequestBody) async {
+  void login() async {
+    LoginRequestBody loginRequestBody = LoginRequestBody(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
     emit(LoginState.loading());
     final response = await _loginRepo.login(loginRequestBody);
     response.when(
       success: (loginResponse) {
-        handleSharedPrefSave(loginResponse);
-        emit(LoginState.success(loginResponse));
+        if (loginResponse.data != null) {
+          _cacheUserTokenAndLoginFlag(loginResponse.data!);
+          emit(LoginState.success(loginResponse));
+        } else {
+          emit(LoginState.error(error: ApiErrorHandler.handle(null)));
+        }
       },
       failure: (error) {
-        emit(LoginState.error(error: ApiErrorHandler.handle(error) ));
+        emit(LoginState.error(error: ApiErrorHandler.handle(error)));
       },
     );
   }
 
-  void handleSharedPrefSave(LoginResponse loginResponse)  async{
-    await  SharedPreferencesHelper.setData(SharedPreferencesConstants.loggedIn, true);
-  await  SharedPreferencesHelper.setSecuredString(
-      SharedPreferencesConstants.token,
-      loginResponse.userData?.token ?? "",
+  void _cacheUserTokenAndLoginFlag(LoginUserData loginResponse) async {
+
+    await SharedPreferencesHelper.setData(
+      SharedPreferencesConstants.loggedIn,
+      true,
     );
-    DioFactory.setTokenIntoHeaderAfterLogin(loginResponse.userData?.token ?? "");
+    await SharedPreferencesHelper.setSecuredString(
+      SharedPreferencesConstants.token,
+      loginResponse.token ?? "",
+    );
+    DioFactory.setTokenIntoHeaderAfterLogin(loginResponse.token ?? "");
   }
+  @override
+Future<void> close() {
+  emailController.dispose();
+  passwordController.dispose();
+  return super.close();
+}
+
 }
