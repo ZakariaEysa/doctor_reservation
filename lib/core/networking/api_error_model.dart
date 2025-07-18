@@ -25,7 +25,6 @@ class ApiErrorModel {
       return message ?? "Unknown Error occurred";
     }
 
-    // TODO : explain this new update 
     if (errors is Map<String, dynamic>) {
       final errorMessage =
           (errors as Map<String, dynamic>).entries.map((entry) {
